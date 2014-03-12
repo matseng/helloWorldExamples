@@ -1,4 +1,4 @@
-var cloneObject = function(obj){
+Object.prototype.cloneObject = function(obj){
   var cloneObj = {};
   for(var key in obj){
     var type;
@@ -25,7 +25,7 @@ var cloneObject = function(obj){
 
 var obj = {1:[{1: {2:'hello obj'}},'b','c'], 2: true, 3: null};
 
-var obj2 = cloneObject(obj);
+var obj2 = obj.cloneObject(obj);
 
 console.log(obj);
 console.log(obj2);
