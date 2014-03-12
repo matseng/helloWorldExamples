@@ -43,9 +43,9 @@ window.onload = function() {
         console.log(cleanObj);
         fireRootRef.push(cleanObj, function(err){
           if(err)
-            console.log("Data not saved: err");
+            console.log("Data not saved to Firebase: err");
           else 
-            console.log("Data successfully saved");
+            console.log("Data successfully saved to Firebase");
         });
       }
     }
