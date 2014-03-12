@@ -40,6 +40,14 @@ var Controller = {
   }
 };
 
+$('#allNotesContainer').on('click', function(){
+  var noteContainer = $(document.getElementById('noteTemplate').content.cloneNode(true).children);
+  var x = event.clientX;
+  var y = event.clientY;
+  noteContainer.css({'position': 'absolute', 'left': x, 'top': y});
+  $('#allNotesContainer').append(noteContainer);
+});
+
 
 /*
 * Main

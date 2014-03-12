@@ -1,6 +1,21 @@
 /*styles.css*/
+#menuContainer {
+  border: 2;
+  border-style: solid;
+}
 
-.noteContainer {
+#allNotesContainer {
+  border: 2;
+  border-style: solid;
+  height: 100%;
+}
+
+textarea {
+    width: 20em;
+    height: 4em;
+}
+
+/*.noteContainer {
   border: 2;
   border-style: solid;
   display: inline-block;
@@ -10,4 +25,4 @@
   border: 1;
   border-style: solid;
   display: inline-block;
-}
+}*/
