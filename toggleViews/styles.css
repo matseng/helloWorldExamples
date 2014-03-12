@@ -3,11 +3,11 @@
 .noteContainer {
   border: 2;
   border-style: solid;
+  display: inline-block;
 }
 
 .textContent {
   border: 1;
   border-style: solid;
   display: inline-block;
-  
 }
