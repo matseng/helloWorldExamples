@@ -106,6 +106,9 @@ console.log('Test object 2: %o', testObj2);
 console.log('Equal values of test objects: %o', equalValues(testObj1, testObj2));
 
 //Test objects with loops
-var childWithParent = {name: "I'm a child", parent: parentWithChild, child: null};
-var parentWithChild = {name: "I'm a parent", parent: null, child: childWithParent};
+var parentNode = {};
+var childNode = {name: "I'm a child", parent: parentNode, child: null};
+_.extend(parentNode, {name: "I'm a parent", parent: null, child: childNode});
+console.log("Child node: %o", childNode);
+console.log("Parent node: %o", parentNode);
 
