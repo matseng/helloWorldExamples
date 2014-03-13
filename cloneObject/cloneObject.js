@@ -49,29 +49,63 @@ var getType = function(val) {
 };
 
 var equalValues = function(obj1, obj2) {
-  //breadth first - compare keys first
-    //if all keys are the same, then check values
-  for(var key in obj1){
-    if( !(key in obj2) )
-      return false;
+  var type1 = getType(obj1);
+  var type2 = getType(obj2);
+  if(type1 !== type2)  //first gate checks rejects objects of different types
+    return false;
+  //obj1 and obj2 are of same type:
+  if(type1 !== 'array' && type1 !== 'object'){
+    if(obj1 === obj2)
+      return true;
+  } else if (type1 === 'array') {
+    for(var i = 0; i < obj1.length; i++){
+      if(equalValues(obj1[i], obj2[i]) === false)
+        return false;
+    }
+    return true;
+  } else { //we have an object that's not an array, string, number, boolean, etc.
+      if(Object.keys(obj1).length !== Object.keys(obj2).length)
+        return false;
+      //Continue as obj1 & obj2 have same number of keys:
+      for(var key in obj1){
+        if(key in obj2){
+          if(equalValues(obj1[key], obj2[key]) === false)
+            return false;
+        }
+      }
+      return true;
   }
-  return true;
 };
 
-//Initialize objects and clone
+//Initialize objects and clone:
 var smallObj = {foo: 'init'};
 var myArr = [{1: {2:'hello obj'}},'b','c'];
-var obj = {0: smallObj, 1: myArr, 2: true, 3: null, 4: undefined, 5: function(){console.log('Anony func');}};
-var myClone = deepClone(obj);
-//Show the intial state of obj
-console.log('Original object: %o', obj);  //this obj get incorrectly mutated by Chrome!
-console.log(obj);
-//Mutate 'values' stored in obj
+var originalObj = {0: smallObj, 1: myArr, 2: true, 3: null, 4: undefined, 5: function(){console.log('Anony func');}};
+var originalObjClone = deepClone(originalObj);
+
+//Show the intial state of obj:
+console.log('Wrong original object (SEE COMMENT): %o', originalObj);  //NOTE: this console log gets does NOT display the correct originl object!
+console.log(originalObj); //NOTE: this console DOES display the correct original object
+
+//Mutate 'values' stored in obj:
 myArr.push(4);
 smallObj.bar = 'fin';  //NOTE: smallObj = {foo: 'changed'} does NOT mutate obj1
-//Show the mutated obj and a clone of the original, clean obj
-console.log('Mutated object: %o', obj);
-console.log('Clone of original object: %o', myClone);  //want myClone to NOT be mutated as well
-//
 
+//Show the mutated obj and a clone of the original, clean obj:
+console.log('Mutated object: %o', originalObj);
+console.log('Clone of original object: %o', originalObjClone);  //want originalObjClone to NOT be mutated as well
+
+//Test equal values function:
+var testObj1 = [1, null, {foo: 123}];
+var testObj2 = [1, undefined, {foo: 123}];
+testObj1 = {0: smallObj, 1: myArr, 2: true, 3: null, 4: undefined, 5: function(){console.log('Anony func');}};
+testObj1.okToMutate = 'will still be equal';
+testObj2 = deepClone(testObj1);
+console.log('Test object 1: %o', testObj1);
+console.log('Test object 2: %o', testObj2);
+console.log('Equal values of test objects: %o', equalValues(testObj1, testObj2));
+
+//Test objects with loops
+var childWithParent = {name: "I'm a child", parent: parentWithChild, child: null};
+var parentWithChild = {name: "I'm a parent", parent: null, child: childWithParent};
 
