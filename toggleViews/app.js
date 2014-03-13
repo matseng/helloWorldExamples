@@ -69,9 +69,11 @@ var editButtonClicked = function(){
 };
 
 var deleteButtonClicked = function(){
-  var elClicked = $(event.srcElement);
-  var noteContainer = elClicked.parent().parent();
-  $('#allNotesContainer').remove(noteContainer);
+  if(confirm("Confirm delete?")){
+    var elClicked = $(event.srcElement);
+    var noteContainer = elClicked.parent().parent();
+    var detached = noteContainer.detach();
+  }
 };
 
 
