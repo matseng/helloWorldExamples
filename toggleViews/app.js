@@ -37,14 +37,11 @@ var Controller = {
   }
 };
 
-var getIdOfMenuButtonChecked = function(){
-  return $("#menuContainer .btn-group :checked").attr('id');
-};
 
 $('#allNotesContainer').on('click', function(){
   var elementClickedId = event.srcElement.id;
-  var menuButtonChecked = getIdOfMenuButtonChecked();
-  if( elementClickedId === 'allNotesContainer' && menuButtonChecked === 'newNote') {
+  var menuButtonCheckedId = $("#menuContainer .btn-group :checked").attr('id');
+  if( elementClickedId === 'allNotesContainer' && menuButtonCheckedId === 'newNote') {
     var noteContainer = $(document.getElementById('noteTemplate').content.cloneNode(true).children);
     var x = event.clientX;
     var y = event.clientY;
@@ -57,6 +54,18 @@ $('#allNotesContainer').on('click', function(){
     });
   }
 });
+
+var NewNoteController = function(){
+  this.addNewNote: addNewNote;
+  this.addNewNoteListeners: 
+};
+
+
+$('#noteContainer').on('mousedown', function(){
+  debugger
+});
+
+
 
 var editButtonClicked = function(){
   var elClicked = $(event.srcElement);
@@ -75,6 +84,8 @@ var deleteButtonClicked = function(){
     var detached = noteContainer.detach();
   }
 };
+
+
 
 
 /*
