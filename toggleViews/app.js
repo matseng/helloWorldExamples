@@ -34,19 +34,45 @@ var Controller = {
     var textAreaString = parentNode.children('.textContent').val();
     var targetNode = $('#viewTextContainer .textContent');
     targetNode.text(textAreaString);
-    // debugger;
-    //   <div id='viewTextContainer'>
-    // <div class='textContent'>
   }
 };
 
+var getIdOfMenuButtonChecked = function(){
+  return $("#menuContainer .btn-group :checked").attr('id');
+};
+
 $('#allNotesContainer').on('click', function(){
-  var noteContainer = $(document.getElementById('noteTemplate').content.cloneNode(true).children);
-  var x = event.clientX;
-  var y = event.clientY;
-  noteContainer.css({'position': 'absolute', 'left': x, 'top': y});
-  $('#allNotesContainer').append(noteContainer);
+  var elementClickedId = event.srcElement.id;
+  var menuButtonChecked = getIdOfMenuButtonChecked();
+  if( elementClickedId === 'allNotesContainer' && menuButtonChecked === 'newNote') {
+    var noteContainer = $(document.getElementById('noteTemplate').content.cloneNode(true).children);
+    var x = event.clientX;
+    var y = event.clientY;
+    noteContainer.css({'position': 'absolute', 'left': x, 'top': y});
+    $('#allNotesContainer').append(noteContainer);
+    $('.textContent').focus();
+    $('.textContent').on('focusout', function(){
+      $(this).attr('disabled', true);  //textarea is no longer editable - user will need to click edit
+      console.log('Will "autosave" in the future');
+    });
+  }
 });
+
+var editButtonClicked = function(){
+  var elClicked = $(event.srcElement);
+  var textContent = elClicked.parent().parent().find('.textContent');
+  textContent.attr('disabled', false);
+  // textContent.blur();
+  // textContent.select();
+  // textContent.focus();
+  //elClicked.parent().find('.textContent').focus();
+};
+
+var deleteButtonClicked = function(){
+  var elClicked = $(event.srcElement);
+  var noteContainer = elClicked.parent().parent();
+  $('#allNotesContainer').remove(noteContainer);
+};
 
 
 /*

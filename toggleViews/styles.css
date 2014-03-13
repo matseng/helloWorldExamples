@@ -10,19 +10,28 @@
   height: 100%;
 }
 
+.textContent {
+  disabled: true;
+}
+
 textarea {
     width: 20em;
     height: 4em;
 }
 
-/*.noteContainer {
+.noteContainer {
   border: 2;
   border-style: solid;
   display: inline-block;
 }
 
-.textContent {
+.deleteButton {
+  float:right;
+}
+
+/*.textContent {
   border: 1;
   border-style: solid;
   display: inline-block;
-}*/
+}
+*/

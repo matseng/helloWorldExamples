@@ -7,20 +7,29 @@
   <div id='menuContainer'>
     <div class="btn-group" data-toggle="buttons">
       <label class="btn btn-primary">
-        <input type="radio" name="options" id="option1"> Explore
+        <input type="radio" name="options" id="explore"> Explore
       </label>
       <label class="btn btn-primary">
-        <input type="radio" name="options" id="option2"> New Note
+        <input type="radio" name="options" id="newNote" checked> New Note
       </label>
       <label class="btn btn-primary">
-        <input type="radio" name="options" id="option3"> New Group
+        <input type="radio" name="options" id="newGroup"> New Group
       </label>
     </div>
   </div>
   <div id='allNotesContainer'></div>
   <template id="noteTemplate">
     <div class='noteContainer'>
-        <textarea class="textContent">Text goes here</textarea>
+      <!-- http://stackoverflow.com/questions/2441565/how-do-i-make-a-div-element-editable-like-a-textarea-when-i-click-it -->
+      <div class="btn-group">
+        <button class="deleteButton" onClick='deleteButtonClicked()'>Delete</button>
+      </div>
+      <textarea class="textContent">Text goes here</textarea>
+      <div>
+        <button>Done</button>
+        <button onClick="editButtonClicked()">Edit</button>
+        <button>Copy</button>
+      </div>
     </div>
   </template>
   <template id="example">
