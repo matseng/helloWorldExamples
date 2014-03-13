@@ -1,41 +1,40 @@
+var deepClone = function(obj){
+  var type = getType(obj);
+  window.lookUp = {
+    'array': cloneArray,
+    'null': cloneNull,
+    'object': cloneObject,
+    'string': cloneOther,
+    'function': cloneOther,
+    'boolean': cloneOther,
+    'number': cloneOther,
+    'undefined': cloneOther
+  };
+  return window.lookUp[type](obj);
+};
+
+var cloneArray = function(arr) {
+  var arrClone = [];
+  for(var i = 0; i < arr.length; i++){
+    arrClone.push(deepClone(arr[i]));
+  }
+  return arrClone;
+};
+
+var cloneNull = function(){
+  return null;
+};
+
+var cloneOther = function(other){
+  return other;
+};
+
 var cloneObject = function(obj){
   var cloneObj = {};
-  if(Array.isArray(obj)){
-    for(var i = 0; i < obj.length; i++){
-      cloneObj.
-    }
-  } else {
-
-    for(var key in obj){
-      // var type;
-      // if(Array.isArray(obj[key])){
-      //   type = 'array';
-      // } else if(obj[key] === null){
-      //   type = 'null';
-      // }
-      // else{
-      //   type = typeof obj[key];
-      // }
-      var type = getType(obj[key]);
-      if(type === 'null'){
-        cloneObj[key] = null;
-      } else if (type === 'array'){
-        var arr = obj[key];
-        var arrClone = [];
-        for(var i = 0; i < arr.length; i++){
-          arrClone.push(cloneObject(arr[i]));
-        }
-        cloneObj[key] = arrClone;
-      }
-      else if(type !== 'object'){
-        cloneObj[key] = obj[key];
-      }
-      else{
-        cloneObj[key] = cloneObject(obj[key]);
-      }
-    }
+  for(var key in obj){
+    cloneObj[key] = deepClone(obj[key]);
   }
-  return cloneObj;
+return cloneObj;
 };
 
 var getType = function(val) {
@@ -50,18 +49,29 @@ var getType = function(val) {
 };
 
 var equalValues = function(obj1, obj2) {
-  //
+  //breadth first - compare keys first
+    //if all keys are the same, then check values
+  for(var key in obj1){
+    if( !(key in obj2) )
+      return false;
+  }
+  return true;
 };
 
+//Initialize objects and clone
+var smallObj = {foo: 'init'};
 var myArr = [{1: {2:'hello obj'}},'b','c'];
-// var myObjTest = {foo: "init"};
-// console.log(myObjTest);
-var obj = {1: myArr, 2: true, 3: null, 4: undefined, 5: function(){console.log('Anony func');}};
-// var obj = {1: myObjTest, 2: true, 3: null, 4: undefined, 5: function(){console.log('Anony func');}};
-var obj2 = cloneObject(obj);
-myArr.push('has been mutatute here');
-// myObjTest.bar = 'fin';
-// console.log(myArr);
-// console.log(myObjTest);
+var obj = {0: smallObj, 1: myArr, 2: true, 3: null, 4: undefined, 5: function(){console.log('Anony func');}};
+var myClone = deepClone(obj);
+//Show the intial state of obj
+console.log('Original object: %o', obj);  //this obj get incorrectly mutated by Chrome!
 console.log(obj);
-console.log(obj2);  //want obj2 to 'equal' the original myArr
+//Mutate 'values' stored in obj
+myArr.push(4);
+smallObj.bar = 'fin';  //NOTE: smallObj = {foo: 'changed'} does NOT mutate obj1
+//Show the mutated obj and a clone of the original, clean obj
+console.log('Mutated object: %o', obj);
+console.log('Clone of original object: %o', myClone);  //want myClone to NOT be mutated as well
+//
+
+
