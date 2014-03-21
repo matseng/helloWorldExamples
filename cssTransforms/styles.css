@@ -1,0 +1,48 @@
+.myRect {
+  position:absolute;
+  width: 50px;
+  height: 33px;
+  border: 1px solid black;
+ -webkit-transform: matrix(1, -0.2, 0, 1, 0, 0);
+      /*-o-transform: matrix(1, -0.2, 0, 1, 0, 0);*/
+         /*transform: matrix(1, -0.2, 0, 1, 0, 0);*/
+       }
+
+/*#outerContainer{
+  position: relative;
+  border: 1px solid black;
+  width: auto;
+  height: 500;
+}
+
+#innerContainer{
+  position: absolute;
+  border: 1px solid black;
+  width: 100%;
+  height: auto;
+  top:0;
+  bottom:0;
+}
+
+#header {
+  position: relative;
+  border: 1px solid black;
+  width: 100%;
+  height:50px;
+  top:0;
+  left:0;
+}
+
+#library {
+  border: 1px solid black;
+  width: 100px;
+  height:100%;
+}
+
+#footer {
+  position: relative;
+  border: 1px solid black;
+  width:100%;
+  height:50px;
+}
+*/

@@ -51,7 +51,7 @@ var getType = function(val) {
 var equalValues = function(obj1, obj2) {
   var type1 = getType(obj1);
   var type2 = getType(obj2);
-  if(type1 !== type2)  //first gate checks rejects objects of different types
+  if(type1 !== type2)  //first gate rejects objects of different types
     return false;
   //obj1 and obj2 are of same type:
   if(type1 !== 'array' && type1 !== 'object'){
@@ -64,16 +64,16 @@ var equalValues = function(obj1, obj2) {
     }
     return true;
   } else { //we have an object that's not an array, string, number, boolean, etc.
-      if(Object.keys(obj1).length !== Object.keys(obj2).length)
-        return false;
-      //Continue as obj1 & obj2 have same number of keys:
-      for(var key in obj1){
-        if(key in obj2){
-          if(equalValues(obj1[key], obj2[key]) === false)
-            return false;
-        }
+    if(Object.keys(obj1).length !== Object.keys(obj2).length)
+      return false;
+    //Continue as obj1 & obj2 have same number of keys:
+    for(var key in obj1){
+      if(key in obj2){
+        if(equalValues(obj1[key], obj2[key]) === false)
+          return false;
       }
-      return true;
+    }
+    return true;
   }
 };
 
@@ -101,14 +101,17 @@ var testObj2 = [1, undefined, {foo: 123}];
 testObj1 = {0: smallObj, 1: myArr, 2: true, 3: null, 4: undefined, 5: function(){console.log('Anony func');}};
 testObj1.okToMutate = 'will still be equal';
 testObj2 = deepClone(testObj1);
+testObj3 = _.cloneDeep(testObj1);  //from lodash library
 console.log('Test object 1: %o', testObj1);
 console.log('Test object 2: %o', testObj2);
+console.log('Test object 3: %o', testObj3);
 console.log('Equal values of test objects: %o', equalValues(testObj1, testObj2));
 
-//Test objects with loops
+//Test objects with circular references
 var parentNode = {};
 var childNode = {name: "I'm a child", parent: parentNode, child: null};
 _.extend(parentNode, {name: "I'm a parent", parent: null, child: childNode});
 console.log("Child node: %o", childNode);
 console.log("Parent node: %o", parentNode);
+console.log("Child === Parent's Child: " + (childNode === parentNode.child));
 
