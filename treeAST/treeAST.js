@@ -1,10 +1,5 @@
 /**
   *
-  * Implement a `BFSelect` method on this Tree class.
-  *
-  * BFSelect accepts a filter function, calls that function on each of the nodes
-  * in Breadth First order, and returns a flat array of node values of the tree
-  * for which the filter returns true.
   *
   * Example:
   *   var root1 = new Tree(1);
@@ -15,16 +10,6 @@
   *   var leaf6 = branch3.addChild(6);
   *   var leaf7 = branch3.addChild(7);
   *
-  *   root1.BFSelect(function (value, depth) {
-  *     return value % 2; //returns 1 ("truthy") for odd values
-  *   })
-  *   // [1, 3, 5, 7]
-  *
-  *   root1.BFSelect(function (value, depth) {
-  *     return depth === 1;
-  *   })
-  *   // [2, 3]
-  *
   */
 
 /*
@@ -34,33 +19,35 @@
 var Tree = function(value){
   this.value = value;
   this.children = [];
+  this.visitCount = 0;
 };
 
-Tree.prototype.BFSelect = function(filter) {
-  var resultsArr = [];
-  var storArr = [this];
-  var depth = 0;
+Tree.prototype.astTraverse = function() {
+  var result = [];
+  var stack = [];
 
-  var recur = function(){
-    var tempStorArr = [];
-    for(var i = 0; i < storArr.length; i++){
-      if(filter(storArr[i].value, depth)){
-        resultsArr.push(storArr[i].value);
-      }
-      for(var j = 0; j < storArr[i].children.length; j++){
-        tempStorArr.push(storArr[i].children[j]);
+  var recur = function(myTree) {
+    result.push(myTree.value);
+    myTree.visitCount += 1;
+    if(myTree.visitCount == 1){
+      stack.push(myTree);
+      for(var i = 0; i < myTree.children.length; i++){
+        recur(myTree.children[i]);
       }
     }
-    storArr = tempStorArr;
-    if(storArr.length){
-      depth += 1;
-      recur();
+    if(myTree.children.length == 0 || myTree.visitCount == (myTree.children.length + 1)) {
+      if(myTree === stack[stack.length - 1]){
+        stack.pop();
+        if(stack.length){
+          recur(stack[stack.length - 1]);
+        }
+      }
     }
   };
 
-  recur();
-  
-  return resultsArr;
+  recur(this);
+
+  return result;
 };
 
 /**
@@ -78,7 +65,7 @@ Tree.prototype.addChild = function(child){
 
   if(!this.isDescendant(child)){
     this.children.push(child);
-  }else {
+  } else {
     throw new Error("That child is already a child of this tree");
   }
   // return the new child node for convenience
@@ -121,18 +108,18 @@ Tree.prototype.removeChild = function(child){
 * Testing
 */
 
-// var root1 = new Tree(1);
-// var branch2 = root1.addChild(2);
-// var branch3 = root1.addChild(3);
-// var leaf4 = branch2.addChild(4);
-// var leaf5 = branch2.addChild(5);
-// var leaf6 = branch3.addChild(6);
-// var leaf7 = branch3.addChild(7);
+var root1 = new Tree(1);
+var branch2 = root1.addChild(2);
+var branch3 = root1.addChild(3);
+var leaf4 = branch2.addChild(4);
+var leaf5 = branch2.addChild(5);
+var leaf6 = branch3.addChild(6);
+var leaf7 = branch3.addChild(7);
 
-// var arr = root1.BFSelect(function (value, depth) {
-//   return value % 2;
-// });
-// console.log(arr);
+var result = root1.astTraverse();
+console.log(result);
+
+//
 
 // var arr2 = root1.BFSelect(function (value, depth) {
 //   return depth === 1;
