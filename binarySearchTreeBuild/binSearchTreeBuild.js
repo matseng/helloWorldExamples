@@ -7,10 +7,10 @@ var Tree = function(val) {
 };
 
 var buildBST = function(arr) {
-  //Sort tree, median value is root note
+  //Sort array, median value will be root node
     //then left and right trees of root nodes are median values of left and right halves respectively
     //recurse over left and right trees
-  //base case: single value left, but it's already been added
+  //base case: array element has already been added to the tree
   // return root of tree
   //consider off-by-one when dividing trees and using start and end indices
 
@@ -39,16 +39,55 @@ var buildBST = function(arr) {
   };
 
   var tree = new Tree();
-  recur(tree, 0, arrSorted.length);
+  recur(tree, 0, arrSorted.length - 1);
   return tree;
 }
 
-var depthFirstPrint = function() {
-  
-}
+Tree.prototype.depthFirstArray = function() {
+  var result = [];
+  // if(!this.left && !this.right)
+  var recur = function(tree) {
+    result.push(tree.value);
+    if(tree.left)
+      recur(tree.left);
+    if(tree.right)
+      recur(tree.right);
+  };
 
-var a = [12, -15, 2, 0, 0, 5, 7];
-// var a = [1,2,3];
+  recur(this);
+
+  return result;
+};
+
+Tree.prototype.breadthFirstArray = function() {
+  //iterate over current queue to get their children and add each child to a new queue
+  //recur over new queue
+  var result = [];
+
+  var recur = function(q1) {
+    var queue2 = [];
+    for(var i = 0; i < q1.length; i++) {
+      result.push(q1[i].value);
+      if(q1[i].left){
+        queue2.push(q1[i].left);
+      }
+      if(q1[i].right) {
+        queue2.push(q1[i].right);
+      }
+    }
+    if(queue2.length > 0)
+      recur(queue2);
+  };
+  
+  recur([this]);
+
+  return result;
+};
+
+// var a = [12, -15, 2, 0, 0, 5, 7];
+var a = [1,2,3,4,5,6,7];
 // console.log(a.sort());
 var myTree = buildBST(a);
 console.log(myTree);
+console.log(myTree.depthFirstArray());
+console.log(myTree.breadthFirstArray());
