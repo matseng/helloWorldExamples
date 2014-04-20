@@ -26,7 +26,7 @@ Board.prototype.checkForWinner = function () {
   var board = this.getBoard();
   
   var checkRow = function (row) {
-    for(var j = 0; j < row.length - 1; j++) {
+    for(var j = 0; j < board.length - 1; j++) {
       if(row[j] == null)
         return false;
       if(row[j] != row[j+1])
@@ -35,34 +35,58 @@ Board.prototype.checkForWinner = function () {
     return row[0];
   };
 
-  var checkAllRows = function (board) {
+  var checkAllRows = function () {
+    var row;
+    var rowWinner;
     for(var i = 0; i < board.length; i++) {
-      var row = board[i];
-      var rowWinner = checkRow(row);
+      row = board[i];
+      rowWinner = checkRow(row);
       if(rowWinner)
         return rowWinner;
     }
     return false;
   };
 
-  winner = checkAllRows(board);
+  var checkCol = function (j) {
+    for(var i = 0; i < board.length - 1; i++) {
+      if(board[i][j] == null)
+        return false;
+      if(board[i][j] != board[i+1][j])
+        return false;
+    }
+    return board[0][j];
+  };
+
+  var checkAllCols = function () {
+    var colWinner;
+    for(var j = 0; j < board.length; j++){
+      colWinner = checkCol(j);
+      if(colWinner)
+        return colWinner;
+    }
+    return false;
+  };
+
+
+  winner = checkAllRows() || checkAllCols();
   return winner;
 };
 
 Board.prototype.print = function () {
-  for(var i = 0; i < this.length; i++) {
+  for(var i = 0; i < this.matrix.length; i++) {
     console.log(this.matrix[i]);
   }
 };
 
 var b = new Board(3);
-b.addMove(0, 0, 'X');
+b.addMove(0, 0, 'O');
 b.addMove(0, 1, 'O');
 b.addMove(0, 2, 'X');
-b.addMove(1, 0, 'O');
+b.addMove(1, 0, 'X');
 b.addMove(1, 1, 'O');
-b.addMove(1, 2, 'O');
+b.addMove(1, 2, 'X');
 b.addMove(2, 2, 'X');
+b.addMove(2, 0, 'X');
 b.print();
 var winner = b.checkForWinner();
 console.log(winner);
