@@ -97,6 +97,10 @@ Board.prototype.print = function () {
   }
 };
 
+Board.prototype.render = function() {
+  
+}
+
 var b = new Board(3);
 b.addMove(0, 0, 'O');
 b.addMove(0, 1, 'O');
