@@ -67,8 +67,27 @@ Board.prototype.checkForWinner = function () {
     return false;
   };
 
+  var checkDiagPos = function() {
+    for(var i = 0; i < board.length - 1; i++) {
+      if(!board[i][i])
+        return false;
+      if(board[i][i] != board[i+1][i+1])
+        return false;
+    }
+    return board[0][0];
+  };
 
-  winner = checkAllRows() || checkAllCols();
+  var checkDiagNeg= function() {
+    for(var dx = 0; dx < board.length - 1; dx++) {
+      if(!board[board.length - 1 - dx][dx])
+        return false;
+      if(board[board.length - 1 - dx][dx] != board[board.length - 1 - dx - 1][dx+1])
+        return false;
+    }
+    return board[board.length - 1][0];
+  };
+
+  winner = checkAllRows() || checkAllCols() || checkDiagPos() || checkDiagNeg();
   return winner;
 };
 
@@ -83,11 +102,10 @@ b.addMove(0, 0, 'O');
 b.addMove(0, 1, 'O');
 b.addMove(0, 2, 'X');
 b.addMove(1, 0, 'X');
-b.addMove(1, 1, 'O');
-b.addMove(1, 2, 'X');
-b.addMove(2, 2, 'X');
+b.addMove(1, 1, 'X');
+b.addMove(1, 2, 'O');
+b.addMove(2, 2, 'O');
 b.addMove(2, 0, 'X');
 b.print();
 var winner = b.checkForWinner();
 console.log(winner);
-// console.log(JSON.stringify(b.getBoard()));
