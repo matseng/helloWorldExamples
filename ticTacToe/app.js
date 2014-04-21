@@ -99,11 +99,21 @@ window.onload = (function () {
     }
   };
 
+  var getPlayerChecked = function () {
+    var elPlayer1 = document.getElementById("player1");
+    var elPlayer2 = document.getElementById("player2");
+    if(elPlayer1.checked)
+      return 'player1';
+    if(elPlayer2.checked)
+      return 'player2';
+    return null;
+  }
+
   var getRowColClicked = function(event) {
     var col = event.srcElement.cellIndex;
     var row = event.srcElement.parentNode.rowIndex;
-    var el = document.getElementById("player");
-    console.log(row, col, el);
+    var playerChecked = getPlayerChecked();
+    console.log(row, col, playerChecked);
   };
   
   (function addBoardListeners () { 
