@@ -19,10 +19,19 @@ window.onload = (function () {
     return this.matrix;
   };
 
-  Board.prototype.addMoveToBoard = function (i, j, move) {
-    var row = this.matrix[i];
-    row[j] = move;
+  Board.prototype.toggleMove = function(i, j, move) {
+    var currVal = this.getValue(i, j);
+    if(currVal == move) {
+      this.matrix[i][j] = null;
+    } else {
+      var row = this.matrix[i];
+      row[j] = move;
+    }
   };
+
+  Board.prototype.getValue = function(i, j) {
+    return this.matrix[i][j];
+  }
 
   Board.prototype.render = function () {
     var board = this.getBoard();
@@ -135,10 +144,11 @@ window.onload = (function () {
     var row = event.srcElement.parentNode.rowIndex;
     var col = event.srcElement.cellIndex;
     var playerChecked = getPlayerChecked();
-    if(playerChecked == 'player1')
-      this.addMoveToBoard(row, col, 'X');
-    else if (playerChecked == 'player2')
-      this.addMoveToBoard(row, col, 'O');
+    if(playerChecked == 'player1') {
+      this.toggleMove(row, col, 'X');
+    } else if (playerChecked == 'player2') {
+      this.toggleMove(row, col, 'O');
+    }
     this.print();
     this.render();
     console.log(b.matrix);
@@ -152,14 +162,14 @@ window.onload = (function () {
   var b = new Board(3);
   b.addBoardListeners();
 
-  // b.addMoveToBoard(0, 0, 'O');
-  // b.addMoveToBoard(0, 1, 'O');
-  // b.addMoveToBoard(0, 2, 'X');
-  // b.addMoveToBoard(1, 0, 'X');
-  // b.addMoveToBoard(1, 1, 'X');
-  // b.addMoveToBoard(1, 2, 'O');
-  // b.addMoveToBoard(2, 2, 'O');
-  // b.addMoveToBoard(2, 0, 'X');
+  // b.toggleMove(0, 0, 'O');
+  // b.toggleMove(0, 1, 'O');
+  // b.toggleMove(0, 2, 'X');
+  // b.toggleMove(1, 0, 'X');
+  // b.toggleMove(1, 1, 'X');
+  // b.toggleMove(1, 2, 'O');
+  // b.toggleMove(2, 2, 'O');
+  // b.toggleMove(2, 0, 'X');
   b.print();
   b.render();
   var winner = b.checkForWinner();
