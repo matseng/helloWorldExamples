@@ -5,6 +5,7 @@ window.onload = (function () {
   var Board = function (n) {
     this.length = n;
     this.matrix = [];
+    this.el = document.getElementById("board");
     for(var i = 0; i < n; i++) {
       var row = [];
       for(var j = 0; j < n; j++) {
@@ -18,10 +19,30 @@ window.onload = (function () {
     return this.matrix;
   };
 
-  Board.prototype.addMove = function (i, j, move) {
+  Board.prototype.addMoveToBoard = function (i, j, move) {
     var row = this.matrix[i];
     row[j] = move;
   };
+
+  Board.prototype.render = function () {
+    var board = this.getBoard();
+    var elBoard = this.el;
+    var length = this.length;
+    var val;
+
+    var setBoardCell = function(i, j, val) {
+      var row = elBoard.rows[i];
+      var cell = row.cells[j];
+      cell.textContent = val;
+    };
+
+    for(var i = 0; i < length; i++) {
+      for(var j = 0; j < length; j++) {
+        val = board[i][j];
+        setBoardCell(i, j, val);
+      }  
+    }
+  }
 
   Board.prototype.checkForWinner = function () {
     var winner = null;
@@ -91,7 +112,7 @@ window.onload = (function () {
 
     winner = checkAllRows() || checkAllCols() || checkDiagPos() || checkDiagNeg();
     return winner;
-  };
+  };  //END of checkForWinner
 
   Board.prototype.print = function () {
     for(var i = 0; i < this.matrix.length; i++) {
@@ -107,33 +128,41 @@ window.onload = (function () {
     if(elPlayer2.checked)
       return 'player2';
     return null;
-  }
+  };
 
-  var getRowColClicked = function(event) {
-    var col = event.srcElement.cellIndex;
+  Board.prototype.getRowColClicked = function(event) {
+    console.log(event.srcElement);
     var row = event.srcElement.parentNode.rowIndex;
+    var col = event.srcElement.cellIndex;
     var playerChecked = getPlayerChecked();
-    console.log(row, col, playerChecked);
+    if(playerChecked == 'player1')
+      this.addMoveToBoard(row, col, 'X');
+    else if (playerChecked == 'player2')
+      this.addMoveToBoard(row, col, 'O');
+    this.print();
+    this.render();
+    console.log(b.matrix);
   };
   
-  (function addBoardListeners () { 
-    var el = document.getElementById("board");
-    el.addEventListener("click", getRowColClicked, false);
-  })();
-
-  Board.prototype.render = function() {}
+  Board.prototype.addBoardListeners = function () { 
+    var el = this.el;
+    el.addEventListener("click", Board.prototype.getRowColClicked.bind(b), false);
+  };
 
   var b = new Board(3);
-  b.addMove(0, 0, 'O');
-  b.addMove(0, 1, 'O');
-  b.addMove(0, 2, 'X');
-  b.addMove(1, 0, 'X');
-  b.addMove(1, 1, 'X');
-  b.addMove(1, 2, 'O');
-  b.addMove(2, 2, 'O');
-  b.addMove(2, 0, 'X');
+  b.addBoardListeners();
+
+  // b.addMoveToBoard(0, 0, 'O');
+  // b.addMoveToBoard(0, 1, 'O');
+  // b.addMoveToBoard(0, 2, 'X');
+  // b.addMoveToBoard(1, 0, 'X');
+  // b.addMoveToBoard(1, 1, 'X');
+  // b.addMoveToBoard(1, 2, 'O');
+  // b.addMoveToBoard(2, 2, 'O');
+  // b.addMoveToBoard(2, 0, 'X');
   b.print();
+  b.render();
   var winner = b.checkForWinner();
   console.log(winner);
 
-})()
+})();
