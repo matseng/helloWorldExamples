@@ -102,10 +102,11 @@ window.onload = (function () {
   var getRowColClicked = function(event) {
     var col = event.srcElement.cellIndex;
     var row = event.srcElement.parentNode.rowIndex;
-    console.log(row, col);
+    var el = document.getElementById("player");
+    console.log(row, col, el);
   };
   
-  (function myListeners () { 
+  (function addBoardListeners () { 
     var el = document.getElementById("board");
     el.addEventListener("click", getRowColClicked, false);
   })();

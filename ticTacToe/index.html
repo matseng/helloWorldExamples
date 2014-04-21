@@ -4,9 +4,13 @@
 </head>
 <body>
   <p>Tic-Tac-Toe</p>
-  <form>
-    <input type="radio" name='player' value="X"> Player 1 (X)
+  <form id='player'>
+    <label>
+    <input type="radio" name='player' value="X" checked> Player 1 (X)
+    </label>
+    <label>
     <input type="radio" name='player' value="O"> Player 2 (O)
+    </label>
   </form>
   <table id='board'>
     <tr> <td>1</td> <td>2</td> <td>3</td> </tr>
