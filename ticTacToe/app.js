@@ -6,7 +6,7 @@ window.onload = (function () {
     this.length = n;
     this.matrix = [];
     this.el = document.getElementById("board");
-    // this.playerChecked;
+    this.playerChecked = getPlayerChecked();
     for(var i = 0; i < n; i++) {
       var row = [];
       for(var j = 0; j < n; j++) {
@@ -39,6 +39,7 @@ window.onload = (function () {
     var elBoard = this.el;
     var length = this.length;
     var val;
+    var playerChecked;
 
     var setBoardCell = function(i, j, val) {
       var row = elBoard.rows[i];
@@ -50,9 +51,13 @@ window.onload = (function () {
       for(var j = 0; j < length; j++) {
         val = board[i][j];
         setBoardCell(i, j, val);
-      }  
+      }
     }
-  }
+
+    playerChecked = this.playerChecked;
+    var elPlayerChecked = document.getElementById(playerChecked);
+    elPlayerChecked.checked = 'checked';
+  };
 
   Board.prototype.checkForWinner = function () {
     var winner = null;
@@ -140,16 +145,27 @@ window.onload = (function () {
     return null;
   };
 
+  Board.prototype.togglePlayerChecked = function () {
+    //this.playerChecked
+    if(this.playerChecked == 'player1') {
+      this.playerChecked = 'player2';
+    } else if (this.playerChecked == 'player2') {
+      this.playerChecked = 'player1';
+    } else
+      return null;
+  };
+
   Board.prototype.addMove = function(event) {
     console.log(event.srcElement);
     var row = event.srcElement.parentNode.rowIndex;
     var col = event.srcElement.cellIndex;
-    var playerChecked = getPlayerChecked();
+    var playerChecked = this.playerChecked;
     if(playerChecked == 'player1') {
       this.toggleMove(row, col, 'X');
     } else if (playerChecked == 'player2') {
       this.toggleMove(row, col, 'O');
     }
+    this.togglePlayerChecked();
     this.print();
     this.render();
   };
