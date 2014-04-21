@@ -6,6 +6,7 @@ window.onload = (function () {
     this.length = n;
     this.matrix = [];
     this.el = document.getElementById("board");
+    // this.playerChecked;
     for(var i = 0; i < n; i++) {
       var row = [];
       for(var j = 0; j < n; j++) {
@@ -139,7 +140,7 @@ window.onload = (function () {
     return null;
   };
 
-  Board.prototype.getRowColClicked = function(event) {
+  Board.prototype.addMove = function(event) {
     console.log(event.srcElement);
     var row = event.srcElement.parentNode.rowIndex;
     var col = event.srcElement.cellIndex;
@@ -151,12 +152,11 @@ window.onload = (function () {
     }
     this.print();
     this.render();
-    console.log(b.matrix);
   };
   
   Board.prototype.addBoardListeners = function () { 
     var el = this.el;
-    el.addEventListener("click", Board.prototype.getRowColClicked.bind(b), false);
+    el.addEventListener("click", Board.prototype.addMove.bind(b), false);
   };
 
   var b = new Board(3);
