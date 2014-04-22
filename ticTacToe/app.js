@@ -4,9 +4,16 @@ window.onload = (function () {
 
   var Board = function (n) {
     this.length = n;
-    this.matrix = [];
+    this.matrix = null;
     this.el = document.getElementById("board");
-    this.playerChecked = getPlayerChecked();
+    this.playerChecked = null;
+    this.winner = null;
+  };
+
+  Board.prototype.initialize = function () {
+    var n = this.length;
+    this.matrix = [];
+    this.togglePlayerChecked();
     this.winner = null;
     for(var i = 0; i < n; i++) {
       var row = [];
@@ -15,6 +22,9 @@ window.onload = (function () {
       }
       this.matrix.push(row);
     }
+    var previousWinner = document.getElementById('winnerName');
+    if(previousWinner)
+      document.getElementById('declareWinner').removeChild(previousWinner);
   };
 
   Board.prototype.getBoard = function () {
@@ -40,7 +50,8 @@ window.onload = (function () {
 
   Board.prototype.getValue = function(i, j) {
     return this.matrix[i][j];
-  }
+  };
+
 
   Board.prototype.render = function () {
     var board = this.getBoard();
@@ -69,6 +80,7 @@ window.onload = (function () {
     if(this.checkForWinner()) {
       var parentEl = document.getElementById('declareWinner');
       var winnerEl = document.createElement('span');
+      winnerEl.id = 'winnerName';
       winnerEl.textContent = "Winner: " + this.winner;
       parentEl.appendChild(winnerEl);
     }
@@ -173,7 +185,7 @@ window.onload = (function () {
   Board.prototype.togglePlayerChecked = function () {
     if(this.playerChecked == 'player1') {
       this.playerChecked = 'player2';
-    } else if (this.playerChecked == 'player2') {
+    } else if (!(this.playerChecked) || this.playerChecked == 'player2') {
       this.playerChecked = 'player1';
     } else
       return null;
@@ -189,15 +201,24 @@ window.onload = (function () {
       this.render();
     }
   };
+
+  var resetButtonClicked = function (board) {
+    console.log('i vvas clicked: board');
+    board.initialize();
+    board.render();
+  };
   
   Board.prototype.addBoardListeners = function () { 
+    var that = this;
     var el = this.el;
     el.addEventListener("click", Board.prototype.boardClicked.bind(b), false);
+    var resetButtonEl = document.getElementById('resetButton');
+    resetButtonEl.addEventListener('click', function(){resetButtonClicked(that)}, false);
   };
 
   var b = new Board(3);
+  b.initialize();
   b.addBoardListeners();
-
   b.print();
   b.render();
 
