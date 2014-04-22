@@ -22,18 +22,20 @@ window.onload = (function () {
   };
 
   Board.prototype.setMove = function(i, j) {
-    var moves = {
-      player1: 'X',
-      player2: 'O'
-    };
-    var playerChecked = this.playerChecked;
-    var move = moves[playerChecked];
-    var currVal = this.getValue(i, j);
-    if(!currVal){
-      this.matrix[i][j] = move;
-      return true;
+    if(!this.winner) {
+      var moves = {
+        player1: 'X',
+        player2: 'O'
+      };
+      var playerChecked = this.playerChecked;
+      var move = moves[playerChecked];
+      var currVal = this.getValue(i, j);
+      if(!currVal){
+        this.matrix[i][j] = move;
+        return true;
+      }
+      return false;
     }
-    return false;
   };
 
   Board.prototype.getValue = function(i, j) {
@@ -181,11 +183,11 @@ window.onload = (function () {
     var row = event.srcElement.parentNode.rowIndex;
     var col = event.srcElement.cellIndex;
     var newMoveBoolean = this.setMove(row, col);  //check to see if attempted move was valid
-    if(newMoveBoolean)
+    if(newMoveBoolean) {
       this.togglePlayerChecked();
-    var winner = b.checkForWinner();
-    this.print();
-    this.render();
+      this.print();
+      this.render();
+    }
   };
   
   Board.prototype.addBoardListeners = function () { 
