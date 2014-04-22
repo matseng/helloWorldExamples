@@ -27,8 +27,8 @@ window.onload = (function () {
         player1: 'X',
         player2: 'O'
       };
-      var playerChecked = this.playerChecked;
-      var move = moves[playerChecked];
+      this.playerChecked = getPlayerChecked();
+      var move = moves[this.playerChecked];
       var currVal = this.getValue(i, j);
       if(!currVal){
         this.matrix[i][j] = move;
