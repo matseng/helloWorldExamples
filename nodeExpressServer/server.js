@@ -1,4 +1,5 @@
 /*
+* To initialize this repo from the package.json file: $ npm install
 * server.js
 * From command line, $ node server.js  or $ nodemon server.js
 * From browser address bar: http://localhost:3000/helloWorld
