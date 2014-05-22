@@ -1,6 +1,6 @@
 /*
 * To initialize this repo from the package.json file: $ npm install
-* server.js
+* Add .gitignore file prior to pushing to github (to ignore bulky node_modules folder) 
 * From command line, $ node server.js  or $ nodemon server.js
 * From browser address bar: http://localhost:3000/helloWorld
 */
