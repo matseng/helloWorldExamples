@@ -2,7 +2,7 @@
 
 # matseng: To run on the command line:
 #  $git init
-#  $./gitcreate.sh
+#  $./gitcreate_v02.sh
 #  $git add .
 #  $git commit -m "Initial commit"
  
