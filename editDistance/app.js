@@ -56,23 +56,32 @@ Board.prototype.print = function() {
   console.log(this.board);
 };
 
-Board.prototype.insert = function(index) {
-  this.board.splice(index, 0, "*");
+Board.prototype.insert = function(i) {
+  this.board.splice(i, 0, "*");
 };
 
-Board.prototype.insertUndo = function(index) {
-  this.board.splice(index, 1);
+Board.prototype.insertUndo = function(i) {
+  this.board.splice(i, 1);
 };
+
+Board.prototype.swap = function(i) {
+  var tempTile = this.board[i];
+  this.board[i] = this.board[i+1];
+  this.board[i+1] = tempTile;
+}
 
 function run() {
   var str1 = 'he';
   var str2 = 'thee';
   var board = new Board();
   var length;
+  var swapCount = 0;
+  var swapMax;
   board.initializeBoard(str1, str2);
   console.log(board.board);
   function makeAMove() {
     length = board.getLength();
+    //Insert a tile a each position:
     for(var i = 0; i <= length; i++) {
       board.insert(i);
       board.print();
@@ -80,6 +89,16 @@ function run() {
         makeAMove();
       }
       board.insertUndo(i);
+    }
+    //Swap each tile and its neighbor on the right
+    for(var i = swapOffset; i < length - 1; i++) {
+      
+      board.swap(i);
+      swapCount += 1;
+      board.print();
+      if(swapCount <= swapMax){
+
+      }
     }
   }
   makeAMove();
