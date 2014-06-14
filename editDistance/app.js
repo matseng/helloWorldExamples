@@ -1,10 +1,11 @@
 // editDistance
 /*
-Find the number of operations ("edit distance") required to convert from one string to another string.
+Find the minimum number of operations ("edit distance") required to convert from one string to another string.
 Edit operations include: insert, delete, substitute, swap
 Example insertion, to convert "he" into "the", simply insert "t" to the begining of "he": 
   console.log(editDistance("he", "the"), editDistance("he", "the") === 1); 
   console.log(editDistance("he", "thee"), editDistance("he", "thee") === 2); 
+  console.log(editDistance("hi", "thee"), editDistance("hi", "thee") === 3); 
 Example substitution:
   console.log(editDistance("she", "the"), editDistance("she", "the") === 1); 
 Example swap:
@@ -13,45 +14,149 @@ A slightly more complicated example:
   console.log(editDistance("her", "thee"), editDistance("her", "thee") === 2); 
 */
 
-/*
+/* TODO:
 - Calc length of each string argument
 - Difference in string length is number of required insertions
 - Helper to determine number of possible insertions...
   _he, h_e, he_
 - Iterate over shorter string
 - At each character, do each possible operation (ignore delete bc we're working on the shorter string) 
+--
+New thought process: create "board" object, which is an array with the shorter strings and blanks if necessary
+- Another property is the target string
+- Keep track of distance
+- Methods for swap and unswap
+- Find min distance (edit distance)
+- Length of string - 1 is max number of swaps
 */
-String.prototype.insert = function(subject, index) {
-  index = index || 0;
-  var targetArr = this.split("");
-  targetArr.splice(index, 0, subject);
-  return targetArr.join("");
+
+function Board() {
+  this.board = [];
+  this.target = null;
+  this.maxLength = null;
 };
 
-function insertSpace(str1, str2) {
-  var shorterStr, longerStr;
-  var lengthDifference;
-  var i = 0;
-  if(str1.length <= str2.length) {
-    shorterStr = str1;
-    longerStr = str2;
-  } else {
-    shorterStr = str2;
-    longerStr = str1;
+Board.prototype.initializeBoard = function(str1, str2, offset) {
+  var strTemp;
+  if(str1.length > str2.length) {
+    strTemp = str1;
+    str1 = str2;
+    str2 = strTemp;
   }
-  lengthDifference = longerStr - shorterStr;
+  this.target = str2;
+  this.maxLength = this.target.length;
+  this.board = str1.split("");
+};
 
-  function recur(shorterStr, longerStr) {
-    for(var i = 0; i <= longerStr.length; i++) {
-      longerStrCopy = longerStr.slice();
-      longerStrCopy = longerStrCopy.insert("_", i);
-      console.log(longerStrCopy);
+Board.prototype.getLength = function() {
+  return this.board.length;
+};
+
+Board.prototype.print = function() {
+  console.log(this.board);
+};
+
+Board.prototype.insert = function(index) {
+  this.board.splice(index, 0, "*");
+};
+
+Board.prototype.insertUndo = function(index) {
+  this.board.splice(index, 1);
+};
+
+function run() {
+  var str1 = 'he';
+  var str2 = 'thee';
+  var board = new Board();
+  var length;
+  board.initializeBoard(str1, str2);
+  console.log(board.board);
+  function makeAMove() {
+    length = board.getLength();
+    for(var i = 0; i <= length; i++) {
+      board.insert(i);
+      board.print();
+      if(board.getLength() < board.maxLength){
+        makeAMove();
+      }
+      board.insertUndo(i);
     }
   }
-  recur(shorterStr, longerStr);
-
+  makeAMove();
 };
 
-insertSpace("a", "b");
+run();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// String.prototype.insert = function(subject, index) {
+//   index = index || 0;
+//   var targetArr = this.split("");
+//   targetArr.splice(index, 0, subject);
+//   return targetArr.join("");
+// };
+
+// function insertSpace(str1, str2) {
+//   var shorterStr, longerStr;
+//   var lengthDifference;
+//   var i = 0;
+//   if(str1.length <= str2.length) {
+//     shorterStr = str1;
+//     longerStr = str2;
+//   } else {
+//     shorterStr = str2;
+//     longerStr = str1;
+//   }
+//   lengthDifference = longerStr - shorterStr;
+
+//   function recur(shorterStr, longerStr) {
+//     for(var i = 0; i <= longerStr.length; i++) {
+//       longerStrCopy = longerStr.slice();
+//       longerStrCopy = longerStrCopy.insert("_", i);
+//       console.log(longerStrCopy);
+//     }
+//   }
+//   recur(shorterStr, longerStr);
+
+// };
+
+
+
+// insertSpace("a", "b");
 
 
