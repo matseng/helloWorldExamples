@@ -8,8 +8,16 @@
 var express = require('express');
 var app = express();
 
+app.use(express.logger('dev')); // log every request to the console
+
+app.get('/', function(req, res){
+  res.header("Access-Control-Allow-Origin", "*");  // required to allow CORs
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.send('Try typing in http://localhost:3000/helloWorld');
+});
+
 app.get('/helloWorld', function(req, res){
-  res.send('Hello World');
+  res.send('Hello World, again!');
 });
 
 var server = app.listen(3000, function() {
