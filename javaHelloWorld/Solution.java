@@ -28,16 +28,33 @@
   //To compile and run: $ javac Solution.java; java Solution
 import java.io.*;
 public class Solution {
-    public static void main(String args[] ) throws Exception {
-      FileReader inputStream = new FileReader("input000.txt");
-      BufferedReader br = new BufferedReader(inputStream);
-      String line = br.readLine();
-      while(line != null) {
-        System.out.println(line);
-        line = br.readLine();
+    
+  int N; 
+  int L;
+  int B;
+  int C;
+
+  public static void main(String args[] ) throws Exception {
+    FileReader inputStream = new FileReader("input000.txt");
+    BufferedReader br = new BufferedReader(inputStream);
+    String line = br.readLine();
+    int i = 0;
+    while(line != null) {
+      System.out.println(i);
+      System.out.println(line);
+      boolean isChunk = line.matches("\\d+,\\d+");
+      if ( isChunk ) {
+        System.out.println("chunk found");
+        String[] strArr = line.split(",");
+        System.out.println(strArr[0]); 
+      } else {
+        // System.out.println(line); 
       }
-      br.close();
+      line = br.readLine();
+      i++;
     }
+    br.close();
+  }
 }
 
 //OUTPUT:
