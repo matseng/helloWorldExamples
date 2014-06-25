@@ -58,7 +58,20 @@ function getLastElement(arr) {
   return arr[arr.length - 1];
 };
 
+function getTotalTransferTime(input, chunks) {
+  var latencyDuration, bandwidthTransferDuration;
+  latencyDuration = 2 * input.L * chunks.length;
+  bandwidthTransferDuration = getTotalImageSize(chunks) / input.B;
+  return latencyDuration + bandwidthTransferDuration;
+};
 
+function getTotalImageSize(chunks) {
+  var sum = 0;
+  for(var i = 0; i < chunks; i++) {
+    sum = sum + (chunks[i][1] - chunks[i][0]);
+  }
+  return sum;
+};
 
 sortChunks(input.chunks);
 console.log(input.chunks);
@@ -75,6 +88,7 @@ var printAllSolutions = function(input) {
         result.push(chunk);
         if(getLastElement(result)[1] === input.N){
           console.log(result.join(", "));
+          console.log("  " + getTotalTransferTime(input, result));
         } else if (bag.length > 0) {
           recur(result, bag, i + 1);
         }
