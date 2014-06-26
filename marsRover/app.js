@@ -3,6 +3,7 @@
 // The third line contains integer B, the bandwidth of the connection in bytes per second.
 // The fourth line contains integer C, the number of chunks.
 // C lines follow, each formatted as A,B, with integer A being the byte index of the start of the chunk, and integer B being the byte index of the end of the chunk. These are zero-indexed byte intervals [A, B), meaning that they contain all byte indices i, such that A <= i < B.
+
 var input1 = {
   N: 2000,
   L: 15,
@@ -38,10 +39,10 @@ var input2 = {
 calculateMinimumDownloadTime(input1);
 calculateMinimumDownloadTime(input2);
 console.log('Expect minimum download time for input1 to equal 340s: ', input1.solution.time, input1.solution.time === 340);
-console.log('Expect minimum download time for input2 to equal 260s: ', input2.solution.time, input2.solution.time === 340);
+console.log('Expect minimum download time for input2 to equal 260s: ', input2.solution.time, input2.solution.time === 260);
 
 /*
-Recursive method to find the download time of subsets of chunks
+Recursive method to find the download times of subsets of chunks
 */
 
 function calculateMinimumDownloadTime(input) {
@@ -51,11 +52,10 @@ function calculateMinimumDownloadTime(input) {
     var length = bag.length;
     for(var i = index; i < length; i++) {
       var chunk = bag[i];
-      if((result.length === 0 && chunk[0] === 0) || doesOverlapOnce(getLastElement(result), chunk)) {
+      if(isInitialChunk(result, chunk) || isNextChunkValid(getLastElement(result), chunk)) {
         result.push(chunk);
-        if(getLastElement(result)[1] === input.N){
+        if(isFinalChunk(result, input)){
           time = getTotalTransferTime(input, result);
-          // console.log("  " + time);
           solutions.push({'chunks': result.slice(), 'time': time});
         } else if (bag.length > 0) {
           recur(result, bag, i + 1);
@@ -70,8 +70,16 @@ function calculateMinimumDownloadTime(input) {
 };
 
 /*
-HELPER METHODS:
+Helper methods:
 */
+
+function isInitialChunk(result, chunk) {
+ return (result.length === 0 && chunk[0] === 0)
+};
+
+function isFinalChunk(result, input) {
+  return (getLastElement(result)[1] === input.N)
+};
 
 function sortByMinimumTime(input, solutions) {
   solutions.sort(function(a, b){
@@ -88,7 +96,7 @@ function sortChunks(arr) {
   });
 };
 
-function doesOverlapOnce(subject, target) {
+function isNextChunkValid(subject, target) {
   if(!subject || !target) return false;
   var subjectTail = subject[0];
   var subjectHead = subject[1];
