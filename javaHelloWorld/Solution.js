@@ -16,21 +16,20 @@
 
 var input = {
   N: 2000,
-  // L: 15,
-  L: 5,
+  L: 15, 
+  // L: 5,
   B: 10,
   C: 7,
   chunks: [
     [0,200],
     [200,400],
-    [201,400],
     [400,600],
     [600,800],
     [800,1000],
     [1000,2000],
     [0,1800]],
   solution: null
-}
+};
 
 function sortChunks(arr) {
   arr.sort(function(a, b) {
