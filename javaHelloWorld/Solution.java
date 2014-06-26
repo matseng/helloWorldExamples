@@ -27,29 +27,42 @@
 //matseng: My combined solution to read each line of a file is below.
   //To compile and run: $ javac Solution.java; java Solution
 import java.io.*;
+import java.util.ArrayList;
 public class Solution {
     
-  int N; 
-  int L;
-  int B;
-  int C;
+  public int N; 
+  public int L;
+  public int B;
+  public int C;
+  public ArrayList<int[]> chunks = new ArrayList<int[]>();
+  public Solution() {};  //contructor method
 
   public static void main(String args[] ) throws Exception {
     FileReader inputStream = new FileReader("input000.txt");
     BufferedReader br = new BufferedReader(inputStream);
     String line = br.readLine();
     int i = 0;
+    Solution s = new Solution();
     while(line != null) {
       System.out.println(i);
       System.out.println(line);
       boolean isChunk = line.matches("\\d+,\\d+");
-      if ( isChunk ) {
+      if (i == 0)
+        s.N = Integer.parseInt(line);
+      else if (i == 1)
+        s.L = Integer.parseInt(line);
+      else if (i == 2)
+        s.B = Integer.parseInt(line);
+      else if (i == 3)
+        s.C = Integer.parseInt(line);
+      else if ( isChunk ) {
         System.out.println("chunk found");
         String[] strArr = line.split(",");
         System.out.println(strArr[0]); 
-      } else {
-        // System.out.println(line); 
-      }
+        int[] chunk = new int[2];
+        chunk[0] = Integer.parseInt(strArr[0]);
+        chunk[1] = Integer.parseInt(strArr[1]);
+      } 
       line = br.readLine();
       i++;
     }

@@ -10,6 +10,78 @@
 
 // C lines follow, each formatted as A,B, with integer A being the byte index of the start of the chunk, and integer B being the byte index of the end of the chunk. These are zero-indexed byte intervals [A, B), meaning that they contain all byte indices i, such that A <= i < B.
 
+// Object.defineProperty(Array.prototype, 'last', function() {
+//   return this[this.length - 1];
+// });
+
+var input = {
+  N: 2000,
+  // L: 15,
+  L: 5,
+  B: 10,
+  C: 7,
+  chunks: [
+    [0,200],
+    [200,400],
+    [201,400],
+    [400,600],
+    [600,800],
+    [800,1000],
+    [1000,2000],
+    [0,1800]],
+  solution: null
+}
+
+function sortChunks(arr) {
+  arr.sort(function(a, b) {
+    var a0 = a[0];
+    var b0 = b[0];
+    return b0 < a0;  //sorts is ascending order
+  });
+};
+
+function doesOverlapOnce(subject, target) {
+  if(!subject || !target) return false;
+  var subjectTail = subject[0];
+  var subjectHead = subject[1];
+  var targetTail = target[0];
+  var targetHead = target[1];
+  if(subjectTail < targetTail && targetTail <= subjectHead && subjectHead < targetHead) {
+    return true;
+  }
+  return false;
+}
+
+// Array.prototype.last = function() {
+//   return this[this.length - 1];
+// };
+// Object.defineProperty(Array.prototype, "last", {enumerable: false});
+
+function getLastElement(arr) {
+  return arr[arr.length - 1];
+};
+
+function getTotalTransferTime(input, chunks) {
+  var latencyDuration, bandwidthTransferDuration;
+  latencyDuration = 2 * input.L * chunks.length;
+  bandwidthTransferDuration = getTotalImageSize(chunks) / input.B;
+  return latencyDuration + bandwidthTransferDuration;
+};
+
+function getTotalImageSize(chunks) {
+  var sum = 0;
+  for(var i = 0; i < chunks.length; i++) {
+    sum = sum + (chunks[i][1] - chunks[i][0]);
+  }
+  return sum;
+};
+
+sortChunks(input.chunks);
+console.log(input.chunks);
+console.log(input.chunks[0], input.chunks[6], doesOverlapOnce(input.chunks[0], input.chunks[6]));
+console.log(input.chunks[0], input.chunks[2], doesOverlapOnce(input.chunks[0], input.chunks[2]));
+console.log(input.chunks[1], input.chunks[6], doesOverlapOnce(input.chunks[1], input.chunks[6]));
+
 var printAllSolutions = function(input) {
   var solutions = [];
   var time;
@@ -39,67 +111,7 @@ var printAllSolutions = function(input) {
   console.log(input);
 };
 
-
-var input = {
-  N: 2000,
-  // L: 15,
-  L: 5,
-  B: 10,
-  C: 7,
-  chunks: [
-    [0,200],
-    [200,400],
-    [201,400],
-    [400,600],
-    [600,800],
-    [800,1000],
-    [1000,2000],
-    [0,1800]],
-  solution: null
-}
-
 printAllSolutions(input);
-
-
-function sortChunks(arr) {
-  arr.sort(function(a, b) {
-    var a0 = a[0];
-    var b0 = b[0];
-    return b0 < a0;  //sorts is ascending order
-  });
-};
-
-function doesOverlapOnce(subject, target) {
-  if(!subject || !target) return false;
-  var subjectTail = subject[0];
-  var subjectHead = subject[1];
-  var targetTail = target[0];
-  var targetHead = target[1];
-  if(subjectTail < targetTail && targetTail <= subjectHead && subjectHead < targetHead) {
-    return true;
-  }
-  return false;
-}
-
-function getLastElement(arr) {
-  return arr[arr.length - 1];
-};
-
-function getTotalTransferTime(input, chunks) {
-  var latencyDuration, bandwidthTransferDuration;
-  latencyDuration = 2 * input.L * chunks.length;
-  bandwidthTransferDuration = getTotalImageSize(chunks) / input.B;
-  return latencyDuration + bandwidthTransferDuration;
-};
-
-function getTotalImageSize(chunks) {
-  var sum = 0;
-  for(var i = 0; i < chunks.length; i++) {
-    sum = sum + (chunks[i][1] - chunks[i][0]);
-  }
-  return sum;
-};
-
 // 2000
 // 5
 // 10
