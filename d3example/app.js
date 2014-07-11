@@ -3,15 +3,15 @@
 // pan and zoom: http://bl.ocks.org/mbostock/6123708
 // g pan example: http://jsfiddle.net/EwGPu/1/
 
-var svg = d3.select('body').append('svg')
-  // .attr('width', 720)
-  // .attr('height', 360)
 
 var circleData = [
   {cx: 40, cy: 60, r: 10, fill: 'steelBlue', text: 'hello world'},
   {cx: 80, cy: 90, r: 10, text: 'hello world 2'},
   {cx: 120, cy: 120, r: 10, text: 'hello world 3'}
 ];
+
+var width = $('body').width();
+var height = $('body').height();
 
 var drag = d3.behavior.drag()
   .origin(function(d) { return d; })
@@ -20,7 +20,7 @@ var drag = d3.behavior.drag()
   .on("dragend", dragended);
 
 function dragstarted(d) {
-  // d3.event.sourceEvent.stopPropagation();
+  d3.event.sourceEvent.stopPropagation();
   d3.select(this).classed("dragging", true);
 }
 
@@ -35,7 +35,34 @@ function dragended(d) {
   d3.select(this).classed("dragging", false);
 }
 
-var circles = svg.selectAll('circle')
+var zoom = d3.behavior.zoom()
+  .scaleExtent([.1, 10])
+  .on('zoom', zoomed)
+
+
+var svg = d3.select('body').append('svg')
+  // .attr('width', 720)  //defined in css
+  // .attr('height', 360)
+  .append('g')
+  .call(zoom)
+
+var rect = svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .style("fill", "none")
+    .style("pointer-events", "all");
+  
+var container = svg.append('g');
+
+function zoomed(prevScale) {
+  // prevScale = prevScale || 1;
+  // var invertedMousewheelScale = prevScale - (d3.event.scale - prevScale);
+  container.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+  // container.attr("transform", "translate(" + d3.event.translate + ") scale(" + invertedMousewheelScale + ")");
+  // prevScale = d3.event.scale;
+}
+
+var circles = container.selectAll('circle')
   .data(circleData)
 
 var circleGroup = circles.enter()
