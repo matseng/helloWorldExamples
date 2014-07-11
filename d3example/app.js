@@ -4,8 +4,8 @@
 // g pan example: http://jsfiddle.net/EwGPu/1/
 
 var svg = d3.select('body').append('svg')
-  .attr('width', 720)
-  .attr('height', 360)
+  // .attr('width', 720)
+  // .attr('height', 360)
 
 var circleData = [
   {cx: 40, cy: 60, r: 10, fill: 'steelBlue', text: 'hello world'},
