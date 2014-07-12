@@ -3,11 +3,10 @@
 // pan and zoom: http://bl.ocks.org/mbostock/6123708
 // g pan example: http://jsfiddle.net/EwGPu/1/
 
-
-var circleData = [
-  {cx: 40, cy: 60, r: 10, fill: 'steelBlue', text: 'hello world'},
-  {cx: 80, cy: 90, r: 10, text: 'hello world 2'},
-  {cx: 120, cy: 120, r: 10, text: 'hello world 3'}
+var nodeData = [
+  {x: 40, y: 60, width: 100, height: 50, fill: 'white', stroke: 'steelBlue', 'stroke-width': 2, text: 'hello world'},
+  {x: 80, y: 90, width: 100, height: 50, fill: 'white', stroke: 'steelBlue', 'stroke-width': 2, text: 'hello world 2 hello world 2'},
+  {x: 120, y: 120, width: 100, height: 50, fill: 'white', stroke: 'steelBlue', 'stroke-width': 2, text: 'hello world 3 hello world 3 hello world 3'}
 ];
 
 var width = $('body').width();
@@ -25,9 +24,9 @@ function dragstarted(d) {
 }
 
 function dragged(d) {
-  // d3.select(this).attr("cx", d.cx = d3.event.x).attr("cy", d.cy = d3.event.y);
-  d.cx += d3.event.dx;
-  d.cy += d3.event.dy;
+  // d3.select(this).attr("x", d.x = d3.event.x).attr("y", d.y = d3.event.y);
+  d.x += d3.event.dx;
+  d.y += d3.event.dy;
   d3.select(this).attr("transform", function(d) {return translate(d)});
 }
 
@@ -39,10 +38,7 @@ var zoom = d3.behavior.zoom()
   .scaleExtent([.1, 10])
   .on('zoom', zoomed)
 
-
 var svg = d3.select('body').append('svg')
-  // .attr('width', 720)  //defined in css
-  // .attr('height', 360)
   .append('g')
   .call(zoom)
 
@@ -51,40 +47,53 @@ var rect = svg.append("rect")
     .attr("height", height)
     .style("fill", "none")
     .style("pointer-events", "all");
-  
+
 var container = svg.append('g');
 
 function zoomed(prevScale) {
+  container.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+  //Not working below. I presume scale must affect translate.
   // prevScale = prevScale || 1;
   // var invertedMousewheelScale = prevScale - (d3.event.scale - prevScale);
-  container.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
   // container.attr("transform", "translate(" + d3.event.translate + ") scale(" + invertedMousewheelScale + ")");
   // prevScale = d3.event.scale;
 }
 
-var circles = container.selectAll('circle')
-  .data(circleData)
+var nodes = container.selectAll('rect')
+  .data(nodeData)
 
-var circleGroup = circles.enter()
+var nodeGroup = nodes.enter()
   .append('g')
   .attr('transform', function(d) {return translate(d)})
   .call(drag)
 
-circleGroup
-  .append('circle')
+nodeGroup
+  .append('rect')
   .each(function(d, i) {
     for(var key in d) {
-      if(key !== 'cx' && key !=='cy') {
+      if(key !== 'x' && key !=='y') {
         this.setAttribute(key, d[key]);  // use .setAttribute instead of .attr
       }
     }
   })
 
-circleGroup
+/*
+// Save for possible later use with tspan to wrap text
+nodeGroup
   .append('text')
   .text(function(d) {return d.text})
+*/
 
+nodeGroup
+  .append('foreignObject')
+  .attr('width', function(d) {return d.width})
+  .attr('height', function(d) {return d.height})
+  .append('xhtml:body')
+  .each(function(d, i) {
+    var currText = d.text;
+    $(this).html("<div style='width:" + d.width + "px;'>" + currText + "</div>")
+  })
 
 function translate(d) {
-  return "translate(" + d.cx + "," + d.cy + ')'
+  return "translate(" + d.x + "," + d.y + ')'
 }
