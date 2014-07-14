@@ -7,7 +7,7 @@
  **/
 
 if(!Object.create){
-  Object.create = function(o){
+  Object.create = function(o){  // o for proto: The object which should be the prototype of the newly-created object.
     function F(){}
     F.prototype=o;
     return new F();
@@ -24,13 +24,13 @@ var extendObjProblem2 = function(childObj, parentObj) {
 
 var extendObj_v1 = function(childObj, parentObj) {
   var tmpObj = function () {}
-  tmpObj.prototype = parentObj.prototype;
+  tmpObj.prototype = parentObj.prototype;  // will NOT pass this.testing1 to future instances
   childObj.prototype = new tmpObj();  //Seems verbose, necessary?
   childObj.prototype.constructor = childObj;
 };
 
 var extendObj_v2 = function(childObj, parentObj) {
-  childObj.prototype = new parentObj();  //my favorite solution thus far
+  childObj.prototype = new parentObj();  //my favorite solution thus far; includes this.testing1 which can be overwritten as an instance variable
   childObj.prototype.constructor = childObj;
 };
 
@@ -38,13 +38,11 @@ var extendObj_v2 = function(childObj, parentObj) {
 // base human object
 var Human = function() {
   this.testing1 = 123;
-  name: '';
-  gender: '';
 };
 
 // inhertiable attributes / methods
 Human.prototype = {
-  testing2: 123,
+  testing2: 345,
   planetOfBirth: 'Earth',  //I kept earth on the proto bc it should be true of all humans (but we can still change it later if we want to)
   sayGender: function () {
       console.log(this.name + ' says my gender is ' + this.gender);
@@ -69,7 +67,8 @@ var Male = function (name) {
 };
 // inherits human
 // extendObj(Male, Human);
-extendObj_v2(Male, Human);
+extendObj_v1(Male, Human);
+// extendObj_v2(Male, Human);
 // extendObjProblem1(Male, Human);
 // extendObjProblem2(Male, Human);
 
@@ -79,7 +78,8 @@ var Female = function (name) {
     this.gender = 'Female';
 };
 // inherits human
-extendObj_v2(Female, Human);
+extendObj_v1(Female, Human);
+// extendObj_v2(Female, Human);
 
 // new instances
 var mike = new Male('Mike');
