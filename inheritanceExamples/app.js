@@ -38,6 +38,7 @@ var extendObj_v2 = function(childObj, parentObj) {
 // base human object
 var Human = function() {
   this.testing1 = 123;
+  this.name;
 };
 
 // inhertiable attributes / methods
@@ -67,8 +68,8 @@ var Male = function (name) {
 };
 // inherits human
 // extendObj(Male, Human);
-extendObj_v1(Male, Human);
-// extendObj_v2(Male, Human);
+// extendObj_v1(Male, Human);
+extendObj_v2(Male, Human);
 // extendObjProblem1(Male, Human);
 // extendObjProblem2(Male, Human);
 
@@ -78,8 +79,8 @@ var Female = function (name) {
     this.gender = 'Female';
 };
 // inherits human
-extendObj_v1(Female, Human);
-// extendObj_v2(Female, Human);
+// extendObj_v1(Female, Human);
+extendObj_v2(Female, Human);
 
 // new instances
 var mike = new Male('Mike');
@@ -102,3 +103,6 @@ jane.sayPlanet(); // Problem if we use extendObjProblem: Jane was born on Mars
 david.sayTesting1();
 david.sayTesting2();
 // jane.sayTesting();
+
+
+
