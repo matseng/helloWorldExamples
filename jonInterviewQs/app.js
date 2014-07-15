@@ -5,7 +5,7 @@
 // - Live cell with <2 live neigh dies
 // - Live cell with 2 or 3 live neigh lives
 // - Live cell with >3 live neight dies
-// - A dead cell with exactly 3 live neigh become live
+// - A dead cell with exactly 3 lives neigh become live
 
 // - iterate over all cells
 // - check each cell for rules above
