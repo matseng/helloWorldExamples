@@ -1,7 +1,7 @@
 
 
 //Rec from Hack Reactor's Facebook page: http://davidshariff.com/blog/javascript-inheritance-patterns/
-
+// Also see: http://aaditmshah.github.io/why-prototypal-inheritance-matters/#toc_6
 /**
  * Point a child's prototype to a parent's prototype
  **/
