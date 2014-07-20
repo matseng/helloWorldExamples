@@ -2,9 +2,9 @@
 
 # matseng: To run on the command line:
 #  $git init
-#  $./gitcreate_v02.sh
 #  $git add .
 #  $git commit -m "Initial commit"
+#  $./gitcreate_v02.sh
  
 # This script create a new repo on github.com, then pushes to it the local repo from the current directory.
  
