@@ -2,6 +2,8 @@
 
 //Rec from Hack Reactor's Facebook page: http://davidshariff.com/blog/javascript-inheritance-patterns/
 // Also see: http://aaditmshah.github.io/why-prototypal-inheritance-matters/#toc_6
+// MDN Example: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model
+// prototype vs __proto__
 /**
  * Point a child's prototype to a parent's prototype
  **/
