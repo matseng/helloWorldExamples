@@ -1,0 +1,3 @@
+about return
+  - returns an object (or another primitive data type: See Douglas Crockford)
+  - and ENDS the execution of the function

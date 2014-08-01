@@ -31,4 +31,4 @@ coundown2(300000);  //does not result in stack overflow!
 // https://gist.github.com/Gozala/1697037
 // tampolining?
 
-//Example of return id of setTimeout or setInterval... then clearTimeout later?
+'ab' == 'bca'
