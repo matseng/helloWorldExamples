@@ -7,5 +7,6 @@ describe('Validator', function() {
     expect(validator('([)')).toBe(false);
     // expect(validator('([{}])')).toBe(true);
     // expect(validator('{[](){[]}}')).toBe(true);
+    expect(validator('{[](){[]}}]')).toBe(false);
   })
 });
