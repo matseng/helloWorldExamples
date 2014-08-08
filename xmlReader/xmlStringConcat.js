@@ -61,8 +61,10 @@ function isClosingTag(tag) {
 function splitXmlString(str) {
     // var reg = /(<\/*\w+>)([.\w\s]*)<\/*\w+>/g;
     // var reg = /(<\/*\w+>+)([.\w\s]*)*/g;
-    var reg = /<\/*\w+>|[.\w\s]+/g;
-    var str = "<node>contents here</node><edge>edge data</edgePartial"
+    // var reg = /<\/*\w+>|[.\w\s]+/g;
+    var reg = /<[^>]+>|[\w\s]+|.+/g;  //best so far, but not sure how to do . OR'd with \s
+    var str = "<node data='good'>contents here</node><edge type='line'>edge data</edgePartial \n newline here";
+    // var str = "</edgePartial and maybe more"
     reg.exec(str);
     reg.exec(str);
     /z|(>([.\w\s]*)<)/g.exec("<node>contents here</node>")
