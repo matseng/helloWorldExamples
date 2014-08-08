@@ -1,27 +1,41 @@
 // xmlStringConcat.js
 
-function parse(strObj) {
-  return strObj;
+
+
+
+function X2J(str) {
+  // var obj = {};
+  // obj[getTagName]
+  this.str = str;
+  // this.this.parse();
+
 }
 
-function isOpeningTag(tag) {
-  var reg = /<\w+>/;
-  return reg.test(tag);
-}
+X2J.prototype = {
+  isOpeningTag: function () {
+    var reg = /<\w+>/;
+    return reg.test(this.str);
+  },
 
-function isClosingTag(tag) {
-  var reg = /<\/\w+>/;
-  return reg.test(tag);
-}
+  isClosingTag: function () {
+    var reg = /<\/\w+>/;
+    return reg.test(this.str);
+  },
 
-function getTagName(tag) {
-  return /<\/*(\w+)>/.exec(tag)[1];
-}
+  getTagName: function() {
+    return /<\/*(\w+)>/.exec(this.str)[1];
+  },
 
-function getContents(tag) {
-  return /.*>([.\w\s]*)<.*/.exec(tag)[1];
-}
+  getContents: function() {
+    return /.*>([.\w\s]*)<.*/.exec(this.str)[1];
+  },
 
-function isTag(tag) {
-  return /<\/*\w+>/.test(tag);
+  isTag: function() {
+    return /<\/*\w+>/.test(this.str);
+  },
+  parse: function() {
+    var obj = {};
+    obj[this.getTagName()] = this.getContents();
+    return obj;
+  }
 }

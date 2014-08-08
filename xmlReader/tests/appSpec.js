@@ -2,28 +2,31 @@ describe('xml string concatenator', function() {
   var openingTag = "<myOpeningTag>";
   var closingTag = "</myClosingTag>";
   var xmlStr = "<node>contents here</node>";
-  it('should should detect a tag', function() {
-    expect(isTag(openingTag)).toEqual(true);
-    expect(isTag(closingTag)).toEqual(true);
-    expect(isTag("</Partial")).toEqual(false);
-    expect(isTag("<Partial")).toEqual(false);
-  });
-  it('should detect a opening tag', function() {
-    expect(isOpeningTag(openingTag)).toEqual(true);
-  });  
-  it('should detect a closing tag', function() {
-    expect(isClosingTag(closingTag)).toEqual(true);
-  });
+  // it('should should detect a tag', function() {
+  //   expect(isTag(openingTag)).toEqual(true);
+  //   expect(isTag(closingTag)).toEqual(true);
+  //   expect(isTag("</Partial")).toEqual(false);
+  //   expect(isTag("<Partial")).toEqual(false);
+  // });
+  // it('should detect a opening tag', function() {
+  //   expect(isOpeningTag(openingTag)).toEqual(true);
+  // });  
+  // it('should detect a closing tag', function() {
+  //   expect(isClosingTag(closingTag)).toEqual(true);
+  // });
+  var x2j = new X2J(xmlStr);
+  var json = x2j.parse();
+
   it('should get the tag name', function() {
-    expect(getTagName(openingTag)).toEqual('myOpeningTag');
-    expect(getTagName(closingTag)).toEqual('myClosingTag');
-    expect(getTagName(xmlStr)).toEqual('node');
+    // expect(x2j.getTagName(openingTag)).toEqual('myOpeningTag');
+    // expect(x2j.getTagName(closingTag)).toEqual('myClosingTag');
+    expect(x2j.getTagName()).toEqual('node');
   });
   it('should get the contents', function() {
-    expect(getContents(xmlStr)).toEqual('contents here');
+    expect(x2j.getContents()).toEqual('contents here');
   }); 
-  xit('should build a simple json object', function() {
-    expect(xml2json(xmlStr)).toEqual({node: 'contents here'});
+  it('should build a simple json object', function() {
+    expect(json).toEqual({node: 'contents here'});
   });
 
   // var xmlStr = "<node>Complete</node><node>Partial<";
