@@ -79,10 +79,10 @@ nodeGroup
 
 /*
 // Save for possible later use with tspan to wrap text
+*/
 nodeGroup
   .append('text')
   .text(function(d) {return d.text})
-*/
 
 nodeGroup
   .append('foreignObject')

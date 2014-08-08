@@ -10,7 +10,9 @@ window.onload = function() {
   fileInput.addEventListener('change', function(e) {
     var file = fileInput.files[0];
     var textType = /text.*/;
+    /*
     var fireRootRef = new Firebase('https://brainspace-biz.firebaseio.com/');
+    */
     var cleanUpObj = function(myJsonObj){
       var lookUp = {
         name: 'title',
@@ -41,24 +43,36 @@ window.onload = function() {
           }
         }
         console.log(cleanObj);
+        /*
         fireRootRef.push(cleanObj, function(err){
           if(err)
             console.log("Data not saved to Firebase: err");
           else 
             console.log("Data successfully saved to Firebase");
         });
+        */
       }
     }
 
     if (file.type.match(textType)) {
       var reader = new FileReader();
 
-      reader.onload = function(e) {
-        // fileDisplayArea.innerText = reader.result;
-        var x2js = new X2JS();
-        var myJsonObj = x2js.xml_str2json(reader.result);
-        cleanUpObj(myJsonObj);
+      reader.onprogress = function(e,a,b,c) {
+        var curr = e;
+        console.log(reader);
+        console.log(curr,a,b,c);
       }
+
+      //SAVE: works for small xml files
+      // reader.onload = function(e) {
+      //   fileDisplayArea.innerHTML = reader.result;
+      //   var x2js = new X2JS();
+      //   var xmlStr = reader.result;
+      //   var myJsonObj = x2js.xml_str2json(xmlStr);
+      //   // var myJsonObj = x2js.xml2json(fileDisplayArea.innerHTML);
+      //   cleanUpObj(myJsonObj);
+      // }
+      
 
       reader.readAsText(file);  
     } else {
