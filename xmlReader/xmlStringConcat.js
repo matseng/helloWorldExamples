@@ -29,7 +29,7 @@ X2J.prototype = {
     var count = 0;
     var stack = [];
     while( (tagNameArr = reg.exec(this.str)) !== null) {
-      console.log(++count);
+      // console.log(++count);
       // console.log(tagNameArr[0]);
       var tagName = tagNameArr[0];
       if(isOpeningTag(tagName)) {
@@ -59,16 +59,18 @@ function isClosingTag(tag) {
 };
 
 function splitXmlString(str) {
-    // var reg = /(<\/*\w+>)([.\w\s]*)<\/*\w+>/g;
-    // var reg = /(<\/*\w+>+)([.\w\s]*)*/g;
-    // var reg = /<\/*\w+>|[.\w\s]+/g;
-    var reg = /<[^>]+>|[\w\s]+|.+/g;  //best so far, but not sure how to do . OR'd with \s
-    var str = "<node data='good'>contents here</node><edge type='line'>edge data</edgePartial \n newline here";
-    // var str = "</edgePartial and maybe more"
-    reg.exec(str);
-    reg.exec(str);
-    /z|(>([.\w\s]*)<)/g.exec("<node>contents here</node>")
-
+  var reg = /<[^>]+>|[\w\s]+|.+/g;  //best so far, but not sure how to do . OR'd with \s
+  // var str = "<node data='good'>contents here</node><edge type='line'>edge data</edgePartial \n newline here";
+  var result = [];
+  var currArr;
+  var currStr;
+  console.log("hello world");
+  while( (currArr = reg.exec(str)) !== null) {
+    currStr = currArr[0];
+    console.log(currStr);
+    result.push(currStr);
+  }
+  return result;
 };
 
 
